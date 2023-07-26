@@ -5,6 +5,12 @@ class ApplicationController < Sinatra::Base
   get "/" do
     { message: "Good luck with your project!" }.to_json
   end
+
+    # Get all events
+    get '/events' do
+      events = Event.all
+      events.to_json
+    end
   # Define the route for creating events
 post '/events' do
   # Parse the JSON data sent in the request body
@@ -32,12 +38,7 @@ post '/events' do
 end
 end
   
-  # Get all events
-  get '/events' do
-    events = Event.all
-    content_type 'application/json'
-    events.to_json
-  end
+
   
   # Get a specific event by id
   get '/events/:id' do
