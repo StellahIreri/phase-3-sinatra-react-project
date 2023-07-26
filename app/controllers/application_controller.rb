@@ -8,7 +8,19 @@ class ApplicationController < Sinatra::Base
 
     # Get all events
     get '/events' do
-      events = Event.all
+      events = Event.all.map do |event|
+        {
+          id: event.id,
+          title: event.title,
+          description: event.description,
+          start_time: event.start_time,
+          end_time: event.end_time,
+          location: event.location,
+          organizer: event.organizer,
+          imageUrl: event.image_url,
+        }
+      end
+      content_type 'application/json'
       events.to_json
     end
   # Define the route for creating events
