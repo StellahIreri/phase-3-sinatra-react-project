@@ -35,7 +35,8 @@ post '/events' do
     start_time: request_data['start_time'],
     end_time: request_data['end_time'],
     location: request_data['location'],
-    organizer: request_data['organizer']
+    organizer: request_data['organizer'],
+    image_url: request_data['imageUrl']
   )
   
   content_type 'application/json'
@@ -61,17 +62,36 @@ end
   # Update an event
   put '/events/:id' do
     event = Event.find(params[:id])
-    request_body = JSON.parse(request.body.read)
-    event.update(request_body)
-    event.to_json
-  end
+    request_data = JSON.parse(request.body.read)
+
+    # Update event attributes, including the image_url
+    event.update(
+      title: request_data['title'],
+      description: request_data['description'],
+      start_time: request_data['start_time'],
+      end_time: request_data['end_time'],
+      location: request_data['location'],
+      organizer: request_data['organizer'],
+      image_url: request_data['imageUrl'] # Add image_url attribute
+    )
+
   
+    content_type 'application/json'
+    if event.save
+      { message: 'Event updated successfully', event: event }.to_json
+    else
+      status 422 # Unprocessable Entity
+      { message: 'Event update failed', errors: event.errors.full_messages }.to_json
+    end
+  end
+
   # Delete an event
   delete '/events/:id' do
     event = Event.find(params[:id])
     event.destroy
     { message: 'Event deleted successfully' }.to_json
   end
+
 
 
 
