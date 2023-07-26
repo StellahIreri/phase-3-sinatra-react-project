@@ -34,7 +34,6 @@ end
   
   # Get all events
   get '/events' do
-    # Assuming you have an Event model with the events table in the database
     events = Event.all
     content_type 'application/json'
     events.to_json
