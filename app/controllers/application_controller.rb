@@ -23,41 +23,48 @@ class ApplicationController < Sinatra::Base
       content_type 'application/json'
       events.to_json
     end
-  # Define the route for creating events
-post '/events' do
-  # Parse the JSON data sent in the request body
-  request_data = JSON.parse(request.body.read)
 
-  # Assuming you have an Event model with the events table in the database
-  event = Event.create(
-    title: request_data['title'],
-    description: request_data['description'],
-    start_time: request_data['start_time'],
-    end_time: request_data['end_time'],
-    location: request_data['location'],
-    organizer: request_data['organizer'],
-    image_url: request_data['imageUrl']
-  )
-  
-  content_type 'application/json'
-  event.to_json
-  if event.save
-    status 201 # Created
-    { message: 'Event created successfully', event: event }.to_json
-  else
-    status 422 # Unprocessable Entity
-    { message: 'Event creation failed', errors: event.errors.full_messages }.to_json
-  end
-end
-end
-  
-
-  
-  # Get a specific event by id
+    # Get a specific event by id
   get '/events/:id' do
-    event = Event.find(params[:id])
-    event.to_json
+    event_id = params[:id].to_i
+    event = Event.find { |event| event[:id] == event_id }
+    if event
+      content_type :json
+      event.to_json
+    else
+      status 404
+      'Event not found'
+    end
   end
+  
+  # Define the route for creating events
+  post '/events' do
+    # Parse the JSON data sent in the request body
+    request_data = JSON.parse(request.body.read)
+  
+    # Assuming you have an Event model with the events table in the database
+    event = Event.new(
+      title: request_data['title'],
+      description: request_data['description'],
+      start_time: request_data['start_time'],
+      end_time: request_data['end_time'],
+      location: request_data['location'],
+      organizer: request_data['organizer'],
+      image_url: request_data['imageUrl']
+    )
+  
+    content_type 'application/json'
+    
+    if event.save
+      status 201 # Created
+      { message: 'Event created successfully', event: event }.to_json
+    else
+      status 422 # Unprocessable Entity
+      { message: 'Event creation failed', errors: event.errors.full_messages }.to_json
+    end
+  end
+  
+  
   
   # Update an event
   put '/events/:id' do
@@ -84,6 +91,7 @@ end
       { message: 'Event update failed', errors: event.errors.full_messages }.to_json
     end
   end
+  
 
   # Delete an event
   delete '/events/:id' do
@@ -94,4 +102,4 @@ end
 
 
 
-
+end
