@@ -88,7 +88,7 @@ class ApplicationController < Sinatra::Base
       { message: 'Event updated successfully', event: event }.to_json
     else
       status 422 # Unprocessable Entity
-      { message: 'Event update has failed', errors: event.errors.full_messages }.to_json
+      { message: 'Event update failed', errors: event.errors.full_messages }.to_json
     end
   end
   
