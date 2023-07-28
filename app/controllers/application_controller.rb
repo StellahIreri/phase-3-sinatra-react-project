@@ -69,7 +69,7 @@ class ApplicationController < Sinatra::Base
   # Update an event
   put '/events/:id' do
     event = Event.find(params[:id])
-    request_data = JSON.parse(request.body.read)
+    request_dat = JSON.parse(request.body.read)
 
     # Update event attributes, including the image_url
     event.update(
