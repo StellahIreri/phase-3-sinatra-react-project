@@ -55,7 +55,7 @@ class ApplicationController < Sinatra::Base
   
     content_type 'application/json'
     
-    if event.saves
+    if event.save
       status 201 # Created
       { message: 'Event created successfully', event: event }.to_json
     else
