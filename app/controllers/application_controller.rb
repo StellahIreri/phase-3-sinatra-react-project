@@ -83,7 +83,7 @@ class ApplicationController < Sinatra::Base
     )
 
   
-    content_type 'application/json'
+    content_type 'applications/json'
     if event.save
       { message: 'Event updated successfully', event: event }.to_json
     else
