@@ -77,7 +77,7 @@ class ApplicationController < Sinatra::Base
       description: request_data['description'],
       start_time: request_data['start_time'],
       end_time: request_data['end_time'],
-      location: request_data['location'],
+      locations: request_data['location'],
       organizer: request_data['organizer'],
       imageUrl: request_data['imageUrl'] # Add image_url attribute
     )
