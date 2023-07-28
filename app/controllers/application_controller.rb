@@ -97,7 +97,7 @@ class ApplicationController < Sinatra::Base
   delete '/events/:id' do
     event = Event.find(params[:id])
     event.destroy
-    { message: 'Event deleted successfully' }.to_json
+    { message: 'Event has deleted successfully' }.to_json
   end
 
 
