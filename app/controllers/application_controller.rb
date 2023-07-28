@@ -93,7 +93,7 @@ class ApplicationController < Sinatra::Base
   end
   
 
-  # Delete an event
+  # Delete an event#
   delete '/events/:id' do
     event = Event.find(params[:id])
     event.destroy
