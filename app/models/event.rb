@@ -1,4 +1,4 @@
 class Event < ActiveRecord::Base
-    attr_accessor :image_url
+    attr_accessor :imageUrl
 
 end
